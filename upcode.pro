@@ -11,8 +11,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    rendervideoframe.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    rendervideoframe.h
 
 FORMS    += mainwindow.ui
