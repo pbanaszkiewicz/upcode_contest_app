@@ -24,6 +24,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QLabel" name="LState">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="RenderVideoFrame" name="image" native="true">
       <property name="minimumSize">
        <size>

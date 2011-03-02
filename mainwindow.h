@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QImage>
 #include "rendervideoframe.h"
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
 namespace Ui {
     class MainWindow;
@@ -26,6 +24,7 @@ private:
 
 private slots:
     void on_pushButton_clicked();
+    void on_image_stateChanged(int);
 };
 
 #endif // MAINWINDOW_H

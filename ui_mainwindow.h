@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Jan 25 12:54:35 2011
-**      by: Qt User Interface Compiler version 4.7.1
+** Created: Wed Mar 2 09:37:24 2011
+**      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -15,6 +15,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
@@ -32,6 +33,7 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton;
+    QLabel *LState;
     RenderVideoFrame *image;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -52,6 +54,11 @@ public:
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
 
         verticalLayout->addWidget(pushButton);
+
+        LState = new QLabel(centralWidget);
+        LState->setObjectName(QString::fromUtf8("LState"));
+
+        verticalLayout->addWidget(LState);
 
         image = new RenderVideoFrame(centralWidget);
         image->setObjectName(QString::fromUtf8("image"));
@@ -81,6 +88,7 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Play", 0, QApplication::UnicodeUTF8));
+        LState->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

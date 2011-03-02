@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->image->setCapture(0);
+    QObject::connect(ui->image, SIGNAL(stateChanged(int)), SLOT(on_image_stateChanged(int)));
 }
 
 MainWindow::~MainWindow()
@@ -17,6 +17,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    ui->image->drawCircles(true);
+    if (ui->image->getState() == -1)
+    {
+        ui->image->startCapturing(0);
+        //ui->image->setState(2);
+    } else
+    {
+        ui->image->stopCapturing();
+    }
+
+    //ui->image->setState(2);
     ui->image->toggleCapturing();
+}
+
+void MainWindow::on_image_stateChanged(int v)
+{
+    switch (v)
+    {
+    case -1:
+        ui->LState->setText("Uninitialized");
+        break;
+    case 0:
+        ui->LState->setText("Get ready for tracking the object");
+        break;
+    case 1:
+        ui->LState->setText("Selecting tracked object");
+        break;
+    case 2:
+        //ui->LState->setText("Tracking object");
+        ui->LState->setText(ui->image->error);
+        break;
+    }
 }
