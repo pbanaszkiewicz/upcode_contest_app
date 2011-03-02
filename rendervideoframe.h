@@ -18,10 +18,11 @@ public:
     Circle(int, int, int);
     bool getSelected();
     void setSelected(bool);
+    unsigned long long getValue();
     int x,y;
 
 protected:
-    long long val;
+    unsigned long long val;
     bool selected;
     //TODO: maybe add position or sth like that
 };
@@ -39,6 +40,7 @@ public:
 protected:
     //capturing settings
     CvCapture *capture;
+    //VideoCapture capture;
     QImage image;
     IplImage *frame;
     IplImage *prev_frame;
@@ -62,30 +64,28 @@ protected:
     //1 -> track obj && display circles && select circles
     //2 -> finished
     int state;
+    unsigned long long value;
+    void countValue();
 
     //circles settings
     int d, s1, s2;
-    bool draw_circles;
     int c_x, c_y;  // number of circles horizontally and vertically
     Vector<Circle> circles;
 
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
+    void initCircles();
+    void startCapturing(int);
+    void stopCapturing();
+
 signals:
     void stateChanged(int);
 
 public slots:
-    void startCapturing(int);
-    void stopCapturing();
     void queryFrame();
-    bool drawCircles();     // TODO: redundant?
-    void drawCircles(bool); // TODO: redundant?
     int getState();
     void setState(int);
-    //void startCapturing();
-    //void stopCapturing();
-    void toggleCapturing();
 
 };
 

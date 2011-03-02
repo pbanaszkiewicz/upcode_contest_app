@@ -17,35 +17,41 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    if (ui->image->getState() == -1)
+    if (ui->image->getState() == -2)
     {
-        ui->image->startCapturing(0);
-        //ui->image->setState(2);
+        //ui->image->startCapturing(0);
+        ui->image->setState(-1); // let's initialize
     } else
     {
-        ui->image->stopCapturing();
+        ui->image->setState(3); // it's 'interruping'
     }
+    // NOTE: for "reset" button, setState(-1)
 
     //ui->image->setState(2);
-    ui->image->toggleCapturing();
+    //ui->image->toggleCapturing();
 }
 
 void MainWindow::on_image_stateChanged(int v)
 {
     switch (v)
     {
-    case -1:
+    case -2:
         ui->LState->setText("Uninitialized");
         break;
+    case -1:
+        ui->LState->setText("Initialized");
+        break;
     case 0:
-        ui->LState->setText("Get ready for tracking the object");
+        ui->LState->setText("Select object to track");
         break;
     case 1:
-        ui->LState->setText("Selecting tracked object");
+        ui->LState->setText("Tracking");
         break;
     case 2:
-        //ui->LState->setText("Tracking object");
-        ui->LState->setText(ui->image->error);
+        ui->LState->setText("Finished :)");
+        break;
+    case 3:
+        ui->LState->setText("Interrupted :(");
         break;
     }
 }

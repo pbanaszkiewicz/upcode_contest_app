@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'rendervideoframe.h'
 **
-** Created: Wed Mar 2 09:37:30 2011
+** Created: Wed Mar 2 10:37:22 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_RenderVideoFrame[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,23 +35,15 @@ static const uint qt_meta_data_RenderVideoFrame[] = {
 
  // slots: signature, parameters, type, tag, flags
       36,   17,   17,   17, 0x0a,
-      56,   17,   17,   17, 0x0a,
-      72,   17,   17,   17, 0x0a,
-      90,   17,   85,   17, 0x0a,
-     104,   17,   17,   17, 0x0a,
-     126,   17,  122,   17, 0x0a,
-     137,   17,   17,   17, 0x0a,
-     151,   17,   17,   17, 0x0a,
+      53,   17,   49,   17, 0x0a,
+      64,   17,   17,   17, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_RenderVideoFrame[] = {
     "RenderVideoFrame\0\0stateChanged(int)\0"
-    "startCapturing(int)\0stopCapturing()\0"
-    "queryFrame()\0bool\0drawCircles()\0"
-    "drawCircles(bool)\0int\0getState()\0"
-    "setState(int)\0toggleCapturing()\0"
+    "queryFrame()\0int\0getState()\0setState(int)\0"
 };
 
 const QMetaObject RenderVideoFrame::staticMetaObject = {
@@ -84,19 +76,13 @@ int RenderVideoFrame::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: startCapturing((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 2: stopCapturing(); break;
-        case 3: queryFrame(); break;
-        case 4: { bool _r = drawCircles();
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 5: drawCircles((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 6: { int _r = getState();
+        case 1: queryFrame(); break;
+        case 2: { int _r = getState();
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 7: setState((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: toggleCapturing(); break;
+        case 3: setState((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 9;
+        _id -= 4;
     }
     return _id;
 }

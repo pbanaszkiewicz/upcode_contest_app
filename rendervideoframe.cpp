@@ -4,7 +4,7 @@
 Circle::Circle() {}
 Circle::Circle(int x, int y, int id) {
     this->x = x; this->y = y;
-    this->val = (long long)pow((long double)2, id);
+    this->val = (unsigned long long)pow((long double)2, id);
     this->selected = false;
 }
 bool Circle::getSelected() {
@@ -12,6 +12,9 @@ bool Circle::getSelected() {
 }
 void Circle::setSelected(bool v) {
     selected = v;
+}
+unsigned long long Circle::getValue() {
+    return val;
 }
 
 RenderVideoFrame::RenderVideoFrame(QWidget *parent) :
@@ -29,6 +32,19 @@ RenderVideoFrame::RenderVideoFrame(QWidget *parent) :
     c_x = 6;
     c_y = 5;
 
+    initCircles();
+
+    //selected point
+    point_diameter = 16;
+
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(queryFrame()) );
+    setState(-2);
+}
+
+void RenderVideoFrame::initCircles() {
+    circles.clear();
+
     for (int i=0, id=(64-c_x*c_y); i<c_x; i++) {
         for (int j=0; j<c_y; j++, id++) {
             //Circle c(i, j, id);
@@ -36,45 +52,40 @@ RenderVideoFrame::RenderVideoFrame(QWidget *parent) :
             circles.push_back(c);
         }
     }
+}
 
-    //selected point
-    point_x = point_y = -1;
-    point_diameter = 16;
-
-    capturing = false;
-    setState(-1);
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(queryFrame()) );
+void RenderVideoFrame::countValue() {
+    for (unsigned i=0; i<circles.size(); i++) {
+        if (circles[i].getSelected())
+            value += circles[i].getValue();
+    }
 }
 
 void RenderVideoFrame::startCapturing(int n) {
-    //this->capture = new VideoCapture(n);
     capture = cvCreateCameraCapture(n);
+    //capture.open(n);
 
     if (!capture) {
         //some error occured
         error = "Cannot set camera.";
     }
-    setState(0);
+    capturing = true;
 
     //grab one frame to set appropriate size (?)
     frame = cvQueryFrame(capture);
     image = QImage(QSize(frame->width, frame->height),QImage::Format_RGB888);
     prev_frame = cvCreateImage(cvSize(frame->width, frame->height), frame->depth,
                                frame->nChannels);
+
+    timer->start(20);
 }
 
 void RenderVideoFrame::stopCapturing() {
+    timer->stop();
+
     cvReleaseCapture(&capture);
-    setState(-1);
-}
-
-bool RenderVideoFrame::drawCircles() {
-    return draw_circles;
-}
-
-void RenderVideoFrame::drawCircles(bool v) {
-    draw_circles = v;
+    //capture.release();
+    capturing = false;
 }
 
 int RenderVideoFrame::getState() {
@@ -82,26 +93,56 @@ int RenderVideoFrame::getState() {
 }
 
 void RenderVideoFrame::setState(int v) {
-    if (v != state  &&  -1 <= v  &&  v <= 2) {
+    if (v != state  &&  -2 <= v  &&  v <= 3) {
         state = v;
-        emit stateChanged(v);
-    }
-}
+        switch (state) {
+        case -2:
+            // uninitialized
+            point_x = point_y = -1;
+            value = 0;
+            capturing = false;
+            break;
 
-void RenderVideoFrame::toggleCapturing() {
-    if (!capturing) {
-        capturing = true;
-        timer->start(20); //manipulating this value may cause the video smoother
-                          //but also it may cause it vanish
-    } else {
-        capturing = false;
-        timer->stop();
+        case -1:
+            // initialized
+            point_x = point_y = -1; // do it again in case of restarting
+            value = 0;
+
+            startCapturing(0);
+            setState(0);
+            break;
+
+        case 0:
+            // waiting for user to select the object to track
+            break;
+
+        case 1:
+            // tracking object and selecting circles
+            break;
+
+        case 2:
+            // finished everything :)
+            stopCapturing();
+            countValue();
+            initCircles();
+            break;
+
+        case 3:
+            // interrupted :(
+            stopCapturing();
+            initCircles();
+            break;
+
+        }
+
+        emit stateChanged(v);
     }
 }
 
 void RenderVideoFrame::queryFrame() {
     cvCopy(frame, prev_frame);
     frame = cvQueryFrame(capture);
+    //capture >> frame;
 
     if (!frame) {
         this->error = "Cannot get frame.";
@@ -126,14 +167,25 @@ void RenderVideoFrame::queryFrame() {
         cvConvertImage(frame, frame2_mono);
 
         calcOpticalFlowPyrLK(frame1_mono, frame2_mono, in, out, status, errors);
-        for (unsigned int i=0; i < status.size(); i++) {
-            if (status[i] == 1) {
-                point_x = out[i].x;
-                point_y = out[i].y;
+
+        // if the point has been found by PyrLK algorithm
+        // set the new point's values
+        if (status[0] == 1) {
+            point_x = out[0].x;
+            point_y = out[0].y;
+        }
+
+        // check if the point is within any circle
+        double r = d / 2, x, y, dist; // circle's radius
+        for (unsigned int i=0; i<circles.size(); i++) {
+            x=circles[i].x+r;
+            y=circles[i].y+r;
+            dist = sqrt(pow(x-point_x, 2) + pow(y-point_y, 2));
+            if (dist<=r) {
+                circles[i].setSelected(true);
+                break;
             }
         }
-        // draw a point at (point_x, point_y) -> done in paintEvent()
-        // check if the point is in some circle
     }
 
     image = QImage(
@@ -147,20 +199,13 @@ void RenderVideoFrame::queryFrame() {
 
 void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
     QPainter painter(this);
-    painter.drawImage(QPoint(0, 0), image);
 
-    if (state==0 || state==-1 || state==2) {
-        //get ready for tracking object
-        // or
-        //uninitialized phase
-        // or
-        //finished phase
-        //
-        // honestly, nothing is expected to happen in here
+    if (state==-1 || state==0 || state==1)
+        painter.drawImage(QPoint(0, 0), image);
 
-    } else if (state==1) {
+    if (state==1) {
         // draw circles on the frame
-        QBrush selected(QColor(127,127,255,40));
+        QBrush selected(QColor(64,64,255,200));
         QBrush not_selected(QColor(127,127,127,40));
 
         for (unsigned int i=0; i<circles.size(); i++) {
@@ -181,7 +226,9 @@ void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
 }
 
 void RenderVideoFrame::mousePressEvent(QMouseEvent * event) {
-    point_x = event->x();
-    point_y = event->y();
-    setState(2);
+    if (getState()==0 && point_x==-1 && point_y==-1) {
+        point_x = event->x();
+        point_y = event->y();
+        setState(1); // tracking
+    }
 }
