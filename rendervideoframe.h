@@ -36,6 +36,7 @@ public:
     explicit RenderVideoFrame(QWidget *parent = 0);
     //~RenderVideoFrame();
     QString error;
+    bool getCapturing() { return capturing; }
 
 protected:
     //capturing settings

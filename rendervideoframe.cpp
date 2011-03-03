@@ -72,6 +72,7 @@ void RenderVideoFrame::startCapturing(int n) {
     capturing = true;
 
     //grab one frame to set appropriate size (?)
+    // TODO: add 'selecting input video size 640x480'
     frame = cvQueryFrame(capture);
     image = QImage(QSize(frame->width, frame->height),QImage::Format_RGB888);
     prev_frame = cvCreateImage(cvSize(frame->width, frame->height), frame->depth,
@@ -202,6 +203,9 @@ void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
 
     if (state==-1 || state==0 || state==1)
         painter.drawImage(QPoint(0, 0), image);
+    else {
+        // draw black screen or something
+    }
 
     if (state==1) {
         // draw circles on the frame
@@ -214,6 +218,7 @@ void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
             else
                 painter.setBrush(not_selected);
             painter.drawEllipse(circles[i].x, circles[i].y, d, d);
+            // TODO: add 'circle.id' in the center of the circle?
         }
 
         // draw the tracking point

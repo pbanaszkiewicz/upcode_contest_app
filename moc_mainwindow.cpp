@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed Mar 2 10:37:21 2011
+** Created: Thu Mar 3 18:03:39 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,14 +32,23 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      36,   11,   11,   11, 0x08,
+      33,   11,   11,   11, 0x08,
+      54,   11,   11,   11, 0x08,
+      80,   11,   11,   11, 0x08,
+     106,   11,   11,   11, 0x08,
+     131,   11,   11,   11, 0x08,
+     157,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0on_pushButton_clicked()\0"
-    "on_image_stateChanged(int)\0"
+    "MainWindow\0\0on_btnSave_clicked()\0"
+    "on_btnLoad_clicked()\0on_rbEncryption_clicked()\0"
+    "on_rbDecryption_clicked()\0"
+    "on_btnFinished_clicked()\0"
+    "on_btnPlayPause_clicked()\0"
+    "on_webcam_stateChanged(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -71,11 +80,16 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_pushButton_clicked(); break;
-        case 1: on_image_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: on_btnSave_clicked(); break;
+        case 1: on_btnLoad_clicked(); break;
+        case 2: on_rbEncryption_clicked(); break;
+        case 3: on_rbDecryption_clicked(); break;
+        case 4: on_btnFinished_clicked(); break;
+        case 5: on_btnPlayPause_clicked(); break;
+        case 6: on_webcam_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 7;
     }
     return _id;
 }

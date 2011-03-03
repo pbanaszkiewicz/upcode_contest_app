@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QImage>
+#include <QFileDialog>
+#include <QString>
+#include <QPixmap>
+#include <QGraphicsScene>
 #include "rendervideoframe.h"
 
 namespace Ui {
@@ -21,10 +25,22 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    enum ACTION {
+        ENCRYPTION,
+        DECRYPTION
+    } action;
+    QString directory;
+    QGraphicsScene scene;
+    QImage image;
 
 private slots:
-    void on_pushButton_clicked();
-    void on_image_stateChanged(int);
+    void on_btnSave_clicked();
+    void on_btnLoad_clicked();
+    void on_rbEncryption_clicked();
+    void on_rbDecryption_clicked();
+    void on_btnFinished_clicked();
+    void on_btnPlayPause_clicked();
+    void on_webcam_stateChanged(int);
 };
 
 #endif // MAINWINDOW_H

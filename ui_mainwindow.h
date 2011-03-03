@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Mar 2 10:36:45 2011
+** Created: Thu Mar 3 17:08:03 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,13 +14,17 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QMainWindow>
-#include <QtGui/QMenuBar>
+#include <QtGui/QPlainTextEdit>
 #include <QtGui/QPushButton>
+#include <QtGui/QRadioButton>
+#include <QtGui/QSpinBox>
 #include <QtGui/QStatusBar>
-#include <QtGui/QToolBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 #include <rendervideoframe.h>
@@ -31,50 +35,177 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout;
-    QPushButton *pushButton;
+    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_2;
+    QGroupBox *groupBox;
+    QHBoxLayout *horizontalLayout_3;
+    QRadioButton *rbEncryption;
+    QRadioButton *rbDecryption;
     QLabel *LState;
-    RenderVideoFrame *image;
-    QMenuBar *menuBar;
-    QToolBar *mainToolBar;
+    RenderVideoFrame *webcam;
+    QGroupBox *groupBox_4;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *btnPlayPause;
+    QPushButton *btnFinished;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label;
+    QSpinBox *sbNumber;
+    QVBoxLayout *verticalLayout_3;
+    QGroupBox *groupBox_2;
+    QHBoxLayout *horizontalLayout_5;
+    QPushButton *btnLoad;
+    QPushButton *btnSave;
+    QGraphicsView *image;
+    QGroupBox *groupBox_3;
+    QVBoxLayout *verticalLayout;
+    QPlainTextEdit *text;
+    QPushButton *btnEncryptDecrypt;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(648, 592);
+        MainWindow->resize(1006, 697);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        verticalLayout = new QVBoxLayout(centralWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        horizontalLayout = new QHBoxLayout(centralWidget);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        horizontalLayout_3 = new QHBoxLayout(groupBox);
+        horizontalLayout_3->setSpacing(6);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        rbEncryption = new QRadioButton(groupBox);
+        rbEncryption->setObjectName(QString::fromUtf8("rbEncryption"));
+        rbEncryption->setChecked(true);
 
-        verticalLayout->addWidget(pushButton);
+        horizontalLayout_3->addWidget(rbEncryption);
+
+        rbDecryption = new QRadioButton(groupBox);
+        rbDecryption->setObjectName(QString::fromUtf8("rbDecryption"));
+
+        horizontalLayout_3->addWidget(rbDecryption);
+
+
+        verticalLayout_2->addWidget(groupBox);
 
         LState = new QLabel(centralWidget);
         LState->setObjectName(QString::fromUtf8("LState"));
+        QFont font;
+        font.setBold(true);
+        font.setWeight(75);
+        LState->setFont(font);
 
-        verticalLayout->addWidget(LState);
+        verticalLayout_2->addWidget(LState);
 
-        image = new RenderVideoFrame(centralWidget);
+        webcam = new RenderVideoFrame(centralWidget);
+        webcam->setObjectName(QString::fromUtf8("webcam"));
+        webcam->setMinimumSize(QSize(640, 480));
+        webcam->setMaximumSize(QSize(640, 480));
+
+        verticalLayout_2->addWidget(webcam);
+
+        groupBox_4 = new QGroupBox(centralWidget);
+        groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
+        horizontalLayout_2 = new QHBoxLayout(groupBox_4);
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        btnPlayPause = new QPushButton(groupBox_4);
+        btnPlayPause->setObjectName(QString::fromUtf8("btnPlayPause"));
+
+        horizontalLayout_2->addWidget(btnPlayPause);
+
+        btnFinished = new QPushButton(groupBox_4);
+        btnFinished->setObjectName(QString::fromUtf8("btnFinished"));
+        btnFinished->setEnabled(false);
+
+        horizontalLayout_2->addWidget(btnFinished);
+
+
+        verticalLayout_2->addWidget(groupBox_4);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        horizontalLayout_4->addWidget(label);
+
+        sbNumber = new QSpinBox(centralWidget);
+        sbNumber->setObjectName(QString::fromUtf8("sbNumber"));
+        sbNumber->setMinimum(8196);
+        sbNumber->setMaximum(2147483647);
+
+        horizontalLayout_4->addWidget(sbNumber);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_4);
+
+
+        horizontalLayout->addLayout(verticalLayout_2);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        groupBox_2 = new QGroupBox(centralWidget);
+        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
+        horizontalLayout_5 = new QHBoxLayout(groupBox_2);
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        btnLoad = new QPushButton(groupBox_2);
+        btnLoad->setObjectName(QString::fromUtf8("btnLoad"));
+
+        horizontalLayout_5->addWidget(btnLoad);
+
+        btnSave = new QPushButton(groupBox_2);
+        btnSave->setObjectName(QString::fromUtf8("btnSave"));
+
+        horizontalLayout_5->addWidget(btnSave);
+
+
+        verticalLayout_3->addWidget(groupBox_2);
+
+        image = new QGraphicsView(centralWidget);
         image->setObjectName(QString::fromUtf8("image"));
-        image->setMinimumSize(QSize(640, 480));
-        image->setMaximumSize(QSize(640, 480));
+        image->setMinimumSize(QSize(350, 300));
+        image->setMaximumSize(QSize(16777215, 300));
 
-        verticalLayout->addWidget(image);
+        verticalLayout_3->addWidget(image);
+
+        groupBox_3 = new QGroupBox(centralWidget);
+        groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
+        verticalLayout = new QVBoxLayout(groupBox_3);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        text = new QPlainTextEdit(groupBox_3);
+        text->setObjectName(QString::fromUtf8("text"));
+
+        verticalLayout->addWidget(text);
+
+        btnEncryptDecrypt = new QPushButton(groupBox_3);
+        btnEncryptDecrypt->setObjectName(QString::fromUtf8("btnEncryptDecrypt"));
+
+        verticalLayout->addWidget(btnEncryptDecrypt);
+
+
+        verticalLayout_3->addWidget(groupBox_3);
+
+
+        horizontalLayout->addLayout(verticalLayout_3);
 
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 648, 23));
-        MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         MainWindow->setStatusBar(statusBar);
@@ -86,9 +217,20 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("MainWindow", "Play", 0, QApplication::UnicodeUTF8));
-        LState->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Stecrypt", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Select action", 0, QApplication::UnicodeUTF8));
+        rbEncryption->setText(QApplication::translate("MainWindow", "Encryption", 0, QApplication::UnicodeUTF8));
+        rbDecryption->setText(QApplication::translate("MainWindow", "Decryption", 0, QApplication::UnicodeUTF8));
+        LState->setText(QApplication::translate("MainWindow", "Use webcam to select input key or instead type in some huge number into the Number field below.", 0, QApplication::UnicodeUTF8));
+        groupBox_4->setTitle(QApplication::translate("MainWindow", "Webcam", 0, QApplication::UnicodeUTF8));
+        btnPlayPause->setText(QApplication::translate("MainWindow", "Launch", 0, QApplication::UnicodeUTF8));
+        btnFinished->setText(QApplication::translate("MainWindow", "Finished!", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("MainWindow", "Number", 0, QApplication::UnicodeUTF8));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Image", 0, QApplication::UnicodeUTF8));
+        btnLoad->setText(QApplication::translate("MainWindow", "Load", 0, QApplication::UnicodeUTF8));
+        btnSave->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "Text", 0, QApplication::UnicodeUTF8));
+        btnEncryptDecrypt->setText(QApplication::translate("MainWindow", "Encrypt", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
