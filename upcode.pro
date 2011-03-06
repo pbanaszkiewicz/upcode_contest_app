@@ -12,9 +12,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    rendervideoframe.cpp
+    rendervideoframe.cpp \
+    xorimage.cpp
 
 HEADERS  += mainwindow.h \
-    rendervideoframe.h
+    rendervideoframe.h \
+    xorimage.h
 
 FORMS    += mainwindow.ui

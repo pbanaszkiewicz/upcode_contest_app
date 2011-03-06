@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Mar 3 17:08:03 2011
+** Created: Sun Mar 6 10:18:37 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -179,7 +179,7 @@ public:
         image = new QGraphicsView(centralWidget);
         image->setObjectName(QString::fromUtf8("image"));
         image->setMinimumSize(QSize(350, 300));
-        image->setMaximumSize(QSize(16777215, 300));
+        image->setMaximumSize(QSize(16777215, 16777215));
 
         verticalLayout_3->addWidget(image);
 
@@ -191,6 +191,7 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         text = new QPlainTextEdit(groupBox_3);
         text->setObjectName(QString::fromUtf8("text"));
+        text->setMaximumBlockCount(0);
 
         verticalLayout->addWidget(text);
 

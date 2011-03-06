@@ -10,6 +10,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->webcam, SIGNAL(stateChanged(int)), SLOT(on_webcam_stateChanged(int)));
     action = ENCRYPTION;
     ui->rbEncryption->setChecked(true);
+
+    // set sbNumber some random value
+    // max = 2147483647
+    // min = 8196
+    qsrand(time(NULL));
+    ui->sbNumber->setValue(qrand()-(RAND_MAX-2147483647-8196)+(8196));
 }
 
 MainWindow::~MainWindow()
@@ -19,20 +25,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnPlayPause_clicked()
 {
-    if (ui->webcam->getCapturing()) {
-        // we're pausing
-        ui->btnPlayPause->setText(tr("Launch"));
-        ui->sbNumber->setEnabled(true);
-    } else {
+    if (ui->webcam->getState() == -2 || ui->webcam->getState() == 3) {
+        ui->webcam->setState(-1); // let's initialize
         // we're starting
         ui->btnPlayPause->setText(tr("Stop"));
         ui->sbNumber->setEnabled(false);
-    }
-
-    if (ui->webcam->getState() == -2 || ui->webcam->getState() == 3) {
-        ui->webcam->setState(-1); // let's initialize
     } else {
         ui->webcam->setState(3); // it's 'interruping'
+        // we're pausing
+        ui->btnPlayPause->setText(tr("Launch"));
+        ui->sbNumber->setEnabled(true);
     }
 }
 
@@ -45,6 +47,7 @@ void MainWindow::on_btnFinished_clicked()
     // what about the number?
     // we cannot set sbNumber.value to that number (int vs unsigned long long)
     //calculated = true = ui->webcam->getState()==2;
+    //ui->statusBar->showMessage(QString("%1").arg(sizeof ui->webcam->getValue()));
 }
 
 void MainWindow::on_webcam_stateChanged(int v)
@@ -104,19 +107,25 @@ void MainWindow::on_btnLoad_clicked()
             ui->image->setSceneRect(0, 0, image.width()-8, image.height()-8);
             scene.addPixmap(QPixmap::fromImage(image));
             ui->image->setScene(&scene);
-            ui->statusBar->showMessage("Loaded " + file_name);
+            ui->statusBar->showMessage(tr("Loaded %1").arg(file_name));
 
         } else {
-            ui->statusBar->showMessage("Cannot load " + file_name + " - too little depth");
+            ui->statusBar->showMessage(tr("Cannot load %1 - too little depth").arg(file_name));
         }
         // set directory==filename.directory
     }
-    return;
 }
 
 void MainWindow::on_btnSave_clicked()
 {
-    QString file_name = QFileDialog::getSaveFileName(this, tr("Save image"), directory,
-                                            tr("Bitmaps (*.bmp)"));
-    return;
+    QString file_name = QFileDialog::getSaveFileName(this, tr("Save image"),
+        directory, tr("Bitmaps (*.bmp)"));
+
+    if (file_name.length()) {
+        if (image.save(file_name)) {
+            ui->statusBar->showMessage(tr("Saved %1").arg(file_name));
+        } else {
+            ui->statusBar->showMessage(tr("Cannot save %1").arg(file_name));
+        }
+    }
 }

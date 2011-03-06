@@ -20,6 +20,7 @@ public:
     void setSelected(bool);
     unsigned long long getValue();
     int x,y;
+    int id;
 
 protected:
     unsigned long long val;
@@ -37,6 +38,7 @@ public:
     //~RenderVideoFrame();
     QString error;
     bool getCapturing() { return capturing; }
+    unsigned long long getValue() { return value; }
 
 protected:
     //capturing settings
@@ -71,7 +73,7 @@ protected:
     //circles settings
     int d, s1, s2;
     int c_x, c_y;  // number of circles horizontally and vertically
-    Vector<Circle> circles;
+    vector<Circle> circles;
 
     void paintEvent(QPaintEvent *event);
     void mousePressEvent(QMouseEvent *event);

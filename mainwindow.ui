@@ -161,7 +161,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>300</height>
+          <height>16777215</height>
          </size>
         </property>
        </widget>
@@ -173,7 +173,11 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPlainTextEdit" name="text"/>
+          <widget class="QPlainTextEdit" name="text">
+           <property name="maximumBlockCount">
+            <number>0</number>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnEncryptDecrypt">

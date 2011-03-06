@@ -6,6 +6,7 @@ Circle::Circle(int x, int y, int id) {
     this->x = x; this->y = y;
     this->val = (unsigned long long)pow((long double)2, id);
     this->selected = false;
+    this->id = id;
 }
 bool Circle::getSelected() {
     return selected == true;
@@ -102,6 +103,7 @@ void RenderVideoFrame::setState(int v) {
             point_x = point_y = -1;
             value = 0;
             capturing = false;
+            update();
             break;
 
         case -1:
@@ -126,12 +128,14 @@ void RenderVideoFrame::setState(int v) {
             stopCapturing();
             countValue();
             initCircles();
+            update();
             break;
 
         case 3:
             // interrupted :(
             stopCapturing();
             initCircles();
+            update();
             break;
 
         }
@@ -154,16 +158,16 @@ void RenderVideoFrame::queryFrame() {
     //it's more natural
     cvFlip(frame, NULL, 1);
 
+    // monochrome are not as good as true color images for tracking
+    // but they speed up the algorithm a lot
+    IplImage *frame1_mono = cvCreateImage(cvSize(frame->width, frame->height), IPL_DEPTH_8U, 1),
+             *frame2_mono = cvCreateImage(cvSize(frame->width, frame->height), IPL_DEPTH_8U, 1);
+
     if (point_x != -1 && point_y != -1) {
         // let's run optical flow!
 
-        in.clear(); out.clear(); status.clear(); errors.clear();
-        in.push_back(Point2f(point_x, point_y));
+        out.clear(); status.clear(); errors.clear();
 
-        // monochrome are not as good as true color images for tracking
-        // but they speed up the algorithm a lot
-        IplImage *frame1_mono = cvCreateImage(cvSize(frame->width, frame->height), IPL_DEPTH_8U, 1),
-                 *frame2_mono = cvCreateImage(cvSize(frame->width, frame->height), IPL_DEPTH_8U, 1);
         cvConvertImage(prev_frame, frame1_mono);
         cvConvertImage(frame, frame2_mono);
 
@@ -171,19 +175,23 @@ void RenderVideoFrame::queryFrame() {
 
         // if the point has been found by PyrLK algorithm
         // set the new point's values
-        if (status[0] == 1) {
-            point_x = out[0].x;
-            point_y = out[0].y;
+        for (unsigned int i=0; i<status.size(); i++) {
+            if (status[i]==1) {
+                in[i] = out[i];
+            }
         }
+        point_x = in[2].x;
+        point_y = in[2].y;
 
         // check if the point is within any circle
         double r = d / 2, x, y, dist; // circle's radius
-        for (unsigned int i=0; i<circles.size(); i++) {
-            x=circles[i].x+r;
-            y=circles[i].y+r;
+        vector<Circle>::iterator it;
+        for (it=circles.begin(); it!=circles.end(); it++) {
+            x=(*it).x+r;
+            y=(*it).y+r;
             dist = sqrt(pow(x-point_x, 2) + pow(y-point_y, 2));
             if (dist<=r) {
-                circles[i].setSelected(true);
+                (*it).setSelected(true);
                 break;
             }
         }
@@ -198,13 +206,16 @@ void RenderVideoFrame::queryFrame() {
     this->update();
 }
 
-void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
+void RenderVideoFrame::paintEvent(QPaintEvent *) {
     QPainter painter(this);
 
     if (state==-1 || state==0 || state==1)
         painter.drawImage(QPoint(0, 0), image);
     else {
         // draw black screen or something
+        QImage tmp(image.width(), image.height(), QImage::Format_RGB888);
+        tmp.fill(0);
+        painter.drawImage(QPoint(0,0), tmp);
     }
 
     if (state==1) {
@@ -212,13 +223,15 @@ void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
         QBrush selected(QColor(64,64,255,200));
         QBrush not_selected(QColor(127,127,127,40));
 
-        for (unsigned int i=0; i<circles.size(); i++) {
-            if (circles[i].getSelected())
+        vector<Circle>::iterator it;
+        for (it=circles.begin(); it!=circles.end(); it++) {
+            if ((*it).getSelected())
                 painter.setBrush(selected);
             else
                 painter.setBrush(not_selected);
-            painter.drawEllipse(circles[i].x, circles[i].y, d, d);
-            // TODO: add 'circle.id' in the center of the circle?
+
+            painter.drawEllipse((*it).x, (*it).y, d, d);
+            painter.drawText((*it).x+d/2-4, (*it).y+d/2+4, QString("%1").arg((*it).id));
         }
 
         // draw the tracking point
@@ -232,8 +245,17 @@ void RenderVideoFrame::paintEvent(QPaintEvent * /*event*/) {
 
 void RenderVideoFrame::mousePressEvent(QMouseEvent * event) {
     if (getState()==0 && point_x==-1 && point_y==-1) {
+        // we set more points just in my curiosity
         point_x = event->x();
         point_y = event->y();
+        Point2f p1(point_x-point_diameter*2, point_y-point_diameter*2),
+                p2(point_x+point_diameter*2, point_y-point_diameter*2),
+                p3(point_x, point_y),
+                p4(point_x-point_diameter*2, point_y+point_diameter*2),
+                p5(point_x+point_diameter*2, point_y+point_diameter*2);
+
+        in.clear();
+        in.push_back(p1); in.push_back(p2); in.push_back(p3); in.push_back(p4); in.push_back(p5);
         setState(1); // tracking
     }
 }
