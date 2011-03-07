@@ -10,6 +10,7 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include "rendervideoframe.h"
+#include "xorimage.h"
 
 namespace Ui {
     class MainWindow;
@@ -34,8 +35,10 @@ private:
     QString directory;
     QGraphicsScene scene;
     QImage image;
+    bool calculated; // whether or not was the number calculated using webcam
 
 private slots:
+    void on_btnEncryptDecrypt_clicked();
     void on_btnSave_clicked();
     void on_btnLoad_clicked();
     void on_rbEncryption_clicked();

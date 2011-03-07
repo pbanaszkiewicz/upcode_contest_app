@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // min = 8196
     qsrand(time(NULL));
     ui->sbNumber->setValue(qrand()-(RAND_MAX-2147483647-8196)+(8196));
+    calculated = false;
 }
 
 MainWindow::~MainWindow()
@@ -25,6 +26,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnPlayPause_clicked()
 {
+    calculated = false;
     if (ui->webcam->getState() == -2 || ui->webcam->getState() == 3) {
         ui->webcam->setState(-1); // let's initialize
         // we're starting
@@ -42,11 +44,11 @@ void MainWindow::on_btnFinished_clicked()
 {
     ui->webcam->setState(2);
     ui->btnPlayPause->setText(tr("Launch"));
-    ui->sbNumber->setEnabled(true);
+    ui->sbNumber->setEnabled(false);
     ui->btnFinished->setEnabled(false);
     // what about the number?
     // we cannot set sbNumber.value to that number (int vs unsigned long long)
-    //calculated = true = ui->webcam->getState()==2;
+    calculated = true;// = ui->webcam->getState()==2;
     //ui->statusBar->showMessage(QString("%1").arg(sizeof ui->webcam->getValue()));
 }
 
@@ -128,4 +130,27 @@ void MainWindow::on_btnSave_clicked()
             ui->statusBar->showMessage(tr("Cannot save %1").arg(file_name));
         }
     }
+}
+
+void MainWindow::on_btnEncryptDecrypt_clicked()
+{
+    XORImage x(512, image);
+
+    if (calculated) {
+        x.setNumber(ui->webcam->getValue());
+        ui->statusBar->showMessage(QString("%1").arg(ui->webcam->getValue()));
+    } else {
+        x.setNumber(ui->sbNumber->value());
+    }
+
+    if (action == ENCRYPTION) {
+        x.setText(ui->text->toPlainText());
+        x.write();
+        scene.addPixmap(QPixmap::fromImage(image));
+        ui->image->setScene(&scene);
+    } else {
+        x.read();
+        ui->text->setPlainText(x.getText());
+    }
+    //ui->statusBar->showMessage(QString("%1").arg(x.getError()));
 }

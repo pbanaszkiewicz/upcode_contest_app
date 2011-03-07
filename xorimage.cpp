@@ -24,6 +24,17 @@ void XORImage::writeB(bool t1, bool t2, int px) {
     image.setPixel(p_x, p_y, qRgb(qRed(colors), green, blue));
 }
 
+void XORImage::readB(bool &t1, bool &t2, int px) {
+    // calculate pixel position
+    int p_x = px % image.width(),
+        p_y = px / image.width();
+
+    QRgb colors = image.pixel(p_x, p_y);
+    int green = qGreen(colors), blue = qBlue(colors);
+    t1 = green % 2 == 1;
+    t2 = blue  % 2 == 1;
+}
+
 void XORImage::write() {
     if (number == 0) {
         error = 4;
@@ -40,17 +51,17 @@ void XORImage::write() {
     unsigned long long n1=0, n2=0;
     QString t2(t.length(), QChar(0));
     for (int i=0; i<t.length(); i+=8) {
-        n1 = t[i].toAscii();
+        n1 = (unsigned long long)t[i].toAscii();
         for (unsigned j=1; j<8; j++) {
-            n1 <<= 8;
-            n1 += t[i+j].toAscii();
+            n1 <<= 8LL;
+            n1 += (unsigned long long)t[i+j].toAscii();
         }
         n1 = n1 ^ number; // now we have 8 bytes of text encrypted
 
         // getting bytes from the number
         for (unsigned int j=0; j<8; j++) {
             n2 = n1 <<        j  * 8;
-            n2 = n2 >> ((8-1)-j) * 8;
+            n2 = n2 >> 7 * 8;
             t2[i+j] = QChar(int(n2));
         }
     }
@@ -67,3 +78,45 @@ void XORImage::write() {
     }
 }
 
+void XORImage::read() {
+    if (number == 0) {
+        error = 4;
+        return;
+    }
+    text.clear();
+
+    int px=0, size=image.width() * image.height();
+    while (px < size) {
+        unsigned long long n1=0, n2=0;
+
+        // it takes 32 pixels to write 8 bytes of text
+        // because 8bytes = 64 bits and there are 2 bits per pixel
+        // so 32 pixels
+        // whereas 1 letter of text (==1B) is 4 pixels
+        for (int n=0; n<8; n++) {
+
+            // below is loop which reads one byte
+            bool t1, t2;
+            uchar b;
+            std::bitset<8> bs(0);
+            for (int i=0; i<4; i++, px++) {
+                readB(t1, t2, px);
+                bs.set(i*2, t1);
+                bs.set(i*2+1, t2);
+            }
+            b = bs.to_ulong();
+            n1 <<= 8;
+            n1 += b;
+        }
+
+        n1 = n1 ^ number;
+        // getting bytes from the number
+        for (unsigned int j=0; j<8; j++) {
+            n2 = n1 <<        j  * 8;
+            n2 = n2 >> 7 * 8;
+            if (n2<15) break;
+
+            text.append(QChar(int(n2)));
+        }
+    }
+}

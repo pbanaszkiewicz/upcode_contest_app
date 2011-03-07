@@ -56,6 +56,7 @@ void RenderVideoFrame::initCircles() {
 }
 
 void RenderVideoFrame::countValue() {
+    value = 0;
     for (unsigned i=0; i<circles.size(); i++) {
         if (circles[i].getSelected())
             value += circles[i].getValue();

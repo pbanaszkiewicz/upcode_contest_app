@@ -35,6 +35,7 @@ private:
     int error;
 
     void writeB(bool, bool, int);
+    void readB(bool &, bool &, int);
 };
 
 #endif // XORIMAGE_H
