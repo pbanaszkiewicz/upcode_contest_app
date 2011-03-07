@@ -34,7 +34,7 @@ private:
     QImage &image;
     int error;
 
-    void bitset(unsigned long long);
+    void writeB(bool, bool, int);
 };
 
 #endif // XORIMAGE_H

@@ -1,4 +1,5 @@
 #include "xorimage.h"
+#include <QColor>
 
 XORImage::XORImage(unsigned int textmaxlength, QImage &i) :
         text_max_length(textmaxlength), image(i)
@@ -7,13 +8,20 @@ XORImage::XORImage(unsigned int textmaxlength, QImage &i) :
     number = 0;
 }
 
-void XORImage::bitset(unsigned long long v) {
-    unsigned long long v2 = v << 32;
-    bitset<32> bs1(v >> 32),  // 32 bits on the left side
-               bs2(v2 >> 32); // 32 bits on the right side
+void XORImage::writeB(bool t1, bool t2, int px) {
+    // calculate pixel position
+    int p_x = px % image.width(),
+        p_y = px / image.width();
 
-    // the only way to get bitset of `unsigned long long`
-    bitset<64> bs(bs1.to_string() + bs2.to_string());
+    QRgb colors = image.pixel(p_x, p_y);
+    int green = qGreen(colors), blue = qBlue(colors);
+    if (t1 && green % 2 != 1) green++;
+    else if (!t1 && green % 2 != 0) green--;
+
+    if (t2 && blue % 2 != 1) blue++;
+    else if (!t2 && blue % 2 != 0) blue--;
+
+    image.setPixel(p_x, p_y, qRgb(qRed(colors), green, blue));
 }
 
 void XORImage::write() {
@@ -50,8 +58,12 @@ void XORImage::write() {
 
     //for i in t2: this->writeB(i)
     //check for image capacity
-    for (int i=0; i<t2.size(); i++) {
-        bitset<8> bs(t2[i]);
+    for (int i=0, px=0; i<t2.size(); i++) {
+        std::bitset<8> bs((int) t2[i].toAscii());
+        for (int j=0; j<8; j+=2) {
+            writeB(bs.test(j), bs.test(j+1), px);
+            px++;
+        }
     }
 }
 
