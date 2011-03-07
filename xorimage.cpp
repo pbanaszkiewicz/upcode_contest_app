@@ -41,7 +41,7 @@ void XORImage::write() {
         return;
     }
 
-    QString t = text + QChar(0);
+    QString t = text + QChar(1);
     // we must have |t| divisible by 8
     while (t.length() % 8 != 0)
         t += QChar(0);
@@ -49,7 +49,7 @@ void XORImage::write() {
     // encrypting happens below
     // we assume `number` is 8bytes-long `unsigned long long` type
     unsigned long long n1=0, n2=0;
-    QString t2(t.length(), QChar(0));
+    QString t2(t.length(), QChar(1));
     for (int i=0; i<t.length(); i+=8) {
         n1 = (unsigned long long)t[i].toAscii();
         for (unsigned j=1; j<8; j++) {
@@ -86,7 +86,8 @@ void XORImage::read() {
     text.clear();
 
     int px=0, size=image.width() * image.height();
-    while (px < size) {
+    bool running = true;
+    while (px < size  &&  running) {
         unsigned long long n1=0, n2=0;
 
         // it takes 32 pixels to write 8 bytes of text
@@ -114,7 +115,10 @@ void XORImage::read() {
         for (unsigned int j=0; j<8; j++) {
             n2 = n1 <<        j  * 8;
             n2 = n2 >> 7 * 8;
-            if (n2<15) break;
+            if (n2<15) {
+                running = false;
+                break;
+            }
 
             text.append(QChar(int(n2)));
         }
