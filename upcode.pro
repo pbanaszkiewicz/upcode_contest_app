@@ -6,9 +6,10 @@
 
 QT       += core gui
 
-TARGET = upcode
+TARGET = stecrypt
 TEMPLATE = app
 
+TRANSLATIONS += stecrypt_pl.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
