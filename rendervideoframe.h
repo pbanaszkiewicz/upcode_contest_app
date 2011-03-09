@@ -25,7 +25,6 @@ public:
 protected:
     unsigned long long val;
     bool selected;
-    //TODO: maybe add position or sth like that
 };
 
 

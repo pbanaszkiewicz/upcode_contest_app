@@ -12,10 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->rbEncryption->setChecked(true);
 
     // set sbNumber some random value
-    // max = 2147483647
-    // min = 8196
     qsrand(time(NULL));
-    ui->sbNumber->setValue(qrand()-(RAND_MAX-2147483647-8196)+(8196));
+    ui->sbNumber->setValue(qrand()); // the value will always respect boundaries (8169, 217.....)
     calculated = false;
 }
 
@@ -138,19 +136,60 @@ void MainWindow::on_btnEncryptDecrypt_clicked()
 
     if (calculated) {
         x.setNumber(ui->webcam->getValue());
-        ui->statusBar->showMessage(QString("%1").arg(ui->webcam->getValue()));
+        //ui->statusBar->showMessage(QString("%1").arg(ui->webcam->getValue()));
     } else {
         x.setNumber(ui->sbNumber->value());
     }
 
     if (action == ENCRYPTION) {
-        x.setText(ui->text->toPlainText());
+        QString t1 = ui->text->toPlainText();
+        t1.truncate(512);
+        x.setText(t1);
+        ui->text->setPlainText(t1);
         x.write();
         scene.addPixmap(QPixmap::fromImage(image));
         ui->image->setScene(&scene);
+
+        ui->statusBar->showMessage(tr("Encryption done"));
     } else {
         x.read();
         ui->text->setPlainText(x.getText());
+
+        ui->statusBar->showMessage(tr("Decryption done"));
     }
     //ui->statusBar->showMessage(QString("%1").arg(x.getError()));
+
+    switch (x.getError()) {
+    case 0:
+        // no errors
+        break;
+    case 1:
+        // image bad format
+        ui->statusBar->showMessage(tr("Input image has bad format"));
+        break;
+    case 2:
+        // text too long
+        ui->statusBar->showMessage(tr("Input text is too long"));
+        break;
+    case 3:
+        // image too small
+        ui->statusBar->showMessage(tr("Input image is too small. Should be at least 46*46px"));
+        break;
+    case 4:
+        // number not set
+        ui->statusBar->showMessage(tr("Input number is not set"));
+        break;
+    }
+}
+
+void MainWindow::on_text_textChanged()
+{
+    QString t = ui->text->toPlainText();
+    if (t.length() > 512) {
+        ui->statusBar->showMessage(tr("Too much characters! The text will be stripped to 512 chars"));
+    } else if (t.contains(QRegExp("[^abcdefghijklmnopqrstuvwyxz .,:;]+", Qt::CaseInsensitive, QRegExp::RegExp2))) {
+        ui->statusBar->showMessage(tr("The text contains disallowed characters!"));
+    } else {
+        ui->statusBar->clearMessage();
+    }
 }

@@ -14,6 +14,10 @@
   <property name="windowTitle">
    <string>Stecrypt</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>password.png</normaloff>password.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -180,8 +184,11 @@
              <height>223</height>
             </size>
            </property>
-           <property name="maximumBlockCount">
-            <number>0</number>
+           <property name="tabChangesFocus">
+            <bool>true</bool>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

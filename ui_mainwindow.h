@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon Mar 7 14:10:34 2011
+** Created: Wed Mar 9 10:36:11 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -192,7 +192,8 @@ public:
         text = new QPlainTextEdit(groupBox_3);
         text->setObjectName(QString::fromUtf8("text"));
         text->setMinimumSize(QSize(0, 223));
-        text->setMaximumBlockCount(0);
+        text->setTabChangesFocus(true);
+        text->setUndoRedoEnabled(true);
 
         verticalLayout->addWidget(text);
 

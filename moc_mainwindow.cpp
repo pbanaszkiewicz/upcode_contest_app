@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Mon Mar 7 13:59:37 2011
+** Created: Wed Mar 9 10:36:35 2011
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        5,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,19 +32,21 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      43,   11,   11,   11, 0x08,
-      64,   11,   11,   11, 0x08,
-      85,   11,   11,   11, 0x08,
-     111,   11,   11,   11, 0x08,
-     137,   11,   11,   11, 0x08,
-     162,   11,   11,   11, 0x08,
-     188,   11,   11,   11, 0x08,
+      34,   11,   11,   11, 0x08,
+      65,   11,   11,   11, 0x08,
+      86,   11,   11,   11, 0x08,
+     107,   11,   11,   11, 0x08,
+     133,   11,   11,   11, 0x08,
+     159,   11,   11,   11, 0x08,
+     184,   11,   11,   11, 0x08,
+     210,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0on_btnEncryptDecrypt_clicked()\0"
+    "MainWindow\0\0on_text_textChanged()\0"
+    "on_btnEncryptDecrypt_clicked()\0"
     "on_btnSave_clicked()\0on_btnLoad_clicked()\0"
     "on_rbEncryption_clicked()\0"
     "on_rbDecryption_clicked()\0"
@@ -82,17 +84,18 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_btnEncryptDecrypt_clicked(); break;
-        case 1: on_btnSave_clicked(); break;
-        case 2: on_btnLoad_clicked(); break;
-        case 3: on_rbEncryption_clicked(); break;
-        case 4: on_rbDecryption_clicked(); break;
-        case 5: on_btnFinished_clicked(); break;
-        case 6: on_btnPlayPause_clicked(); break;
-        case 7: on_webcam_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: on_text_textChanged(); break;
+        case 1: on_btnEncryptDecrypt_clicked(); break;
+        case 2: on_btnSave_clicked(); break;
+        case 3: on_btnLoad_clicked(); break;
+        case 4: on_rbEncryption_clicked(); break;
+        case 5: on_rbDecryption_clicked(); break;
+        case 6: on_btnFinished_clicked(); break;
+        case 7: on_btnPlayPause_clicked(); break;
+        case 8: on_webcam_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
-        _id -= 8;
+        _id -= 9;
     }
     return _id;
 }
