@@ -1,3 +1,20 @@
+/*
+* This file is part of Stecrypt.
+*
+* Stecrypt is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Stecrypt is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with Stecrypt.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -15,6 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
     qsrand(time(NULL));
     ui->sbNumber->setValue(qrand()); // the value will always respect boundaries (8169, 217.....)
     calculated = false;
+
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 }
 
 MainWindow::~MainWindow()
@@ -55,24 +76,24 @@ void MainWindow::on_webcam_stateChanged(int v)
     ui->btnFinished->setEnabled(false);
     switch (v) {
     case -2:
-        ui->statusBar->showMessage("Uninitialized");
+        ui->statusBar->showMessage(tr("Uninitialized"));
         break;
     case -1:
-        ui->statusBar->showMessage("Initialized");
+        ui->statusBar->showMessage(tr("Initialized"));
         break;
     case 0:
-        ui->statusBar->showMessage("Select object to track");
+        ui->statusBar->showMessage(tr("Select object to track"));
         break;
     case 1:
-        ui->statusBar->showMessage("Tracking");
+        ui->statusBar->showMessage(tr("Tracking"));
         ui->btnFinished->setEnabled(true);
         break;
     case 2:
-        ui->statusBar->showMessage("Finished :)");
+        ui->statusBar->showMessage(tr("Finished"));
         //if ()
         break;
     case 3:
-        ui->statusBar->showMessage("Interrupted :(");
+        ui->statusBar->showMessage(tr("Interrupted"));
         break;
     }
 }
@@ -108,6 +129,8 @@ void MainWindow::on_btnLoad_clicked()
             scene.addPixmap(QPixmap::fromImage(image));
             ui->image->setScene(&scene);
             ui->statusBar->showMessage(tr("Loaded %1").arg(file_name));
+
+            ui->btnEncryptDecrypt->setEnabled(true);
 
         } else {
             ui->statusBar->showMessage(tr("Cannot load %1 - too little depth").arg(file_name));
@@ -162,6 +185,7 @@ void MainWindow::on_btnEncryptDecrypt_clicked()
     switch (x.getError()) {
     case 0:
         // no errors
+        ui->btnSave->setEnabled(true);
         break;
     case 1:
         // image bad format

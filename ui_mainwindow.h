@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Mar 9 10:36:11 2011
+** Created: Wed Mar 9 11:35:53 2011
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -67,6 +67,9 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(1006, 697);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("password.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -170,6 +173,7 @@ public:
 
         btnSave = new QPushButton(groupBox_2);
         btnSave->setObjectName(QString::fromUtf8("btnSave"));
+        btnSave->setEnabled(false);
 
         horizontalLayout_5->addWidget(btnSave);
 
@@ -199,6 +203,7 @@ public:
 
         btnEncryptDecrypt = new QPushButton(groupBox_3);
         btnEncryptDecrypt->setObjectName(QString::fromUtf8("btnEncryptDecrypt"));
+        btnEncryptDecrypt->setEnabled(false);
 
         verticalLayout->addWidget(btnEncryptDecrypt);
 
