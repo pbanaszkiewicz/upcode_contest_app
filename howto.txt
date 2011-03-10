@@ -1,0 +1,23 @@
+Kompilacja programu Stecrypt
+============================
+
+Platforma Linux
+~~~~~~~~~~~~~~~
+    Program Stecrypt wymaga do kompilacji i działania dwóch bibliotek: Qt
+    (w wersji minimum 4.5) oraz OpenCV (w wersji minimum 2.0).  Najłatwiejszy
+    sposób to zainstalowanie ich z repozytorium danej dystrybucji.
+
+    Kompilacja sprowadza się do wywołania polecenia:
+    $ make -w
+    w katalogu z projektem. Gdyby linker uparcie twierdził o błędach, należy
+    nadpisać plik Makefile plikiem Makefile.copy, co powinno pomóc.
+
+    Uruchomienie programu to:
+    $ ./stecrypt
+
+Platforma Windows
+~~~~~~~~~~~~~~~~~
+    Platforma ta oficjalnie nie jest wspierana przez autora programu, ale
+    prawdopodobnie najłatwiejszy sposób na kompilację Stecryptu w środowisku
+    Windows to import jako nowy projekt w programie Qt Creator. Więcej opisane
+    jest w dokumentacji.
