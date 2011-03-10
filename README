@@ -3,3 +3,7 @@ Stecrypt -- simple steganography application with interesting features.
 Core features:
 * text 'written' into image is always encrypted (with XOR: http://en.wikipedia.org/wiki/Exclusive_or)
 * the key used in XOR en|decryption can be selected with your webcam
+
+Requirements:
+* Qt libs, version >=4.5
+* OpenCV lib, version >=2.0
