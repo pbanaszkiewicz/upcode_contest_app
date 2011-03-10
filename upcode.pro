@@ -21,3 +21,6 @@ HEADERS  += mainwindow.h \
     xorimage.h
 
 FORMS    += mainwindow.ui
+
+CONFIG += link_pkgconfig
+PKGCONFIG += opencv

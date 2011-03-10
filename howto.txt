@@ -7,10 +7,10 @@ Platforma Linux
     (w wersji minimum 4.5) oraz OpenCV (w wersji minimum 2.0).  Najłatwiejszy
     sposób to zainstalowanie ich z repozytorium danej dystrybucji.
 
-    Kompilacja sprowadza się do wywołania polecenia:
+    Kompilacja sprowadza się do wywołania kilku poleceń:
+    $ qmake upcode.pro -r -spec linux-g++ CONFIG+=release
     $ make -w
-    w katalogu z projektem. Gdyby linker uparcie twierdził o błędach, należy
-    nadpisać plik Makefile plikiem Makefile.copy, co powinno pomóc.
+    w katalogu z projektem.
 
     Uruchomienie programu to:
     $ ./stecrypt
