@@ -3,3 +3,4 @@ test/*
 *.bmp
 documentation/*
 *.swp
+moc_*
