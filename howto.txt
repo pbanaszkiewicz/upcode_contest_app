@@ -6,9 +6,17 @@ Platforma Linux
     Program Stecrypt wymaga do kompilacji i działania dwóch bibliotek: Qt
     (w wersji minimum 4.5) oraz OpenCV (w wersji minimum 2.0).  Najłatwiejszy
     sposób to zainstalowanie ich z repozytorium danej dystrybucji.
+    
+    Sposób instalacji OpenCV dla Ubuntu (zaczerpnięty ze strony
+    https://help.ubuntu.com/community/OpenCV):
+    $ sudo apt-get install build-essential libavformat-dev ffmpeg libcv4 \
+      libcvaux4 libhighgui4 python-opencv opencv-doc libcv-dev libcvaux-dev \
+      libhighgui-dev
+
+    Instalacja w innych dystrybucjach również nie powinna przysporzyć problemów.
 
     Kompilacja sprowadza się do wywołania kilku poleceń:
-    $ qmake upcode.pro -r -spec linux-g++ CONFIG+=release
+    $ qmake stecrypt.pro -r -spec linux-g++ CONFIG+=release
     $ make -w
     w katalogu z projektem.
 
