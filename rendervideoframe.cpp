@@ -74,10 +74,10 @@ void RenderVideoFrame::initCircles() {
 
 void RenderVideoFrame::countValue() {
     value = 0;
-    for (unsigned i=0; i<circles.size(); i++) {
-        if (circles[i].getSelected()) {
-            value += circles[i].getValue();
-            value += pow(2, circles[i].id-32);
+    for (vector<Circle>::iterator i=circles.begin(); i!=circles.end(); i++) {
+        if ((*i).getSelected()) {
+            value += (*i).getValue();
+            value += pow(2, (*i).id-32);
         }
     }
 }

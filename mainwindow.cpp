@@ -46,7 +46,8 @@ MainWindow::~MainWindow()
 void MainWindow::on_btnPlayPause_clicked()
 {
     calculated = false;
-    if (ui->webcam->getState() == -2 || ui->webcam->getState() == 3) {
+    if (ui->webcam->getState() == -2 || ui->webcam->getState() == 3 ||
+            ui->webcam->getState() == 2) {
         ui->webcam->setState(-1); // let's initialize
         // we're starting
         ui->btnPlayPause->setText(tr("Stop"));
@@ -68,7 +69,7 @@ void MainWindow::on_btnFinished_clicked()
     // what about the number?
     // we cannot set sbNumber.value to that number (int vs unsigned long long)
     calculated = true;// = ui->webcam->getState()==2;
-    //ui->statusBar->showMessage(QString("%1").arg(sizeof ui->webcam->getValue()));
+    //ui->statusBar->showMessage(QString("%1").arg(ui->webcam->getValue()));
 }
 
 void MainWindow::on_webcam_stateChanged(int v)

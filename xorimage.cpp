@@ -17,6 +17,7 @@
 
 #include "xorimage.h"
 #include <QColor>
+#include <vector>
 
 XORImage::XORImage(unsigned int textmaxlength, QImage &i) :
         text_max_length(textmaxlength), image(i)
@@ -61,12 +62,13 @@ void XORImage::write() {
     QString t = text + QChar(1);
     // we must have |t| divisible by 8
     while (t.length() % 8 != 0)
-        t += QChar(0);
+        t += QChar(1);
 
     // encrypting happens below
     // we assume `number` is 8bytes-long `unsigned long long` type
     unsigned long long n1=0, n2=0;
-    QString t2(t.length(), QChar(1));
+    //QString t2(t.length(), QChar(1));
+    std::vector<uchar> t2(t.length(), uchar(1));
     for (int i=0; i<t.length(); i+=8) {
         n1 = (unsigned long long)t[i].toAscii();
         for (unsigned j=1; j<8; j++) {
@@ -79,15 +81,20 @@ void XORImage::write() {
         for (unsigned int j=0; j<8; j++) {
             n2 = n1 <<        j  * 8;
             n2 = n2 >> 7 * 8;
-            t2[i+j] = QChar(int(n2));
+            //t2[i+j] = QChar(int(n2));
+            t2[i+j] = uchar(n2);
+            /*if (int(n2)==224) {
+                t2[i+j] = QChar(224);
+            }*/
         }
     }
     // now `t2` contains encrypted text
 
     //for i in t2: this->writeB(i)
     //check for image capacity
-    for (int i=0, px=0; i<t2.size(); i++) {
-        std::bitset<8> bs((int) t2[i].toAscii());
+    for (unsigned int i=0, px=0; i<t2.size(); i++) {
+        uchar c = t2[i];
+        std::bitset<8> bs((int)c);
         for (int j=0; j<8; j+=2) {
             writeB(bs.test(j), bs.test(j+1), px);
             px++;
@@ -132,7 +139,7 @@ void XORImage::read() {
         for (unsigned int j=0; j<8; j++) {
             n2 = n1 <<        j  * 8;
             n2 = n2 >> 7 * 8;
-            if (n2<15) {
+            if (n2<=1) {
                 running = false;
                 break;
             }
