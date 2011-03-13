@@ -103,6 +103,7 @@ void MainWindow::on_rbEncryption_clicked()
 {
     action = ENCRYPTION;
     ui->btnEncryptDecrypt->setText(tr("Encrypt"));
+	ui->text->setPlainText(QString());
     ui->text->setReadOnly(false);
 }
 
@@ -110,6 +111,7 @@ void MainWindow::on_rbDecryption_clicked()
 {
     action = DECRYPTION;
     ui->btnEncryptDecrypt->setText(tr("Decrypt"));
+	ui->text->setPlainText(QString());
     ui->text->setReadOnly(true);
 }
 
