@@ -13,6 +13,9 @@ Platforma Linux
       libcvaux4 libhighgui4 python-opencv opencv-doc libcv-dev libcvaux-dev \
       libhighgui-dev
 
+    Instalacja Qt wraz z plikami nagłówkowymi i programem qmake dla Ubuntu:
+    $ sudo apt-get install qt-sdk
+
     Instalacja w innych dystrybucjach również nie powinna przysporzyć problemów.
 
     Kompilacja sprowadza się do wywołania kilku poleceń:
@@ -27,5 +30,8 @@ Platforma Windows
 ~~~~~~~~~~~~~~~~~
     Platforma ta oficjalnie nie jest wspierana przez autora programu, ale
     prawdopodobnie najłatwiejszy sposób na kompilację Stecryptu w środowisku
-    Windows to import jako nowy projekt w programie Qt Creator. Więcej opisane
-    jest w dokumentacji.
+    Windows to import jako nowy projekt w programie Qt Creator.
+
+    Instalacja OpenCV: http://opencv.willowgarage.com/wiki/InstallGuide
+
+    Instalacja Qt: http://doc.qt.nokia.com/latest/install-win.html
