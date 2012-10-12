@@ -191,7 +191,15 @@ void RenderVideoFrame::queryFrame() {
         cvConvertImage(prev_frame, frame1_mono);
         cvConvertImage(frame, frame2_mono);
 
-        calcOpticalFlowPyrLK(frame1_mono, frame2_mono, in, out, status, errors);
+        Mat mat1(frame1_mono);
+        Mat mat2(frame2_mono);
+//        Mat mat1 = cvCreateMat(frame1_mono->height, frame1_mono->width, CV_32FC3);
+//        Mat mat2 = cvCreateMat(frame2_mono->height, frame2_mono->width, CV_32FC3);
+//        cvConvert(frame1_mono, mat1);
+//        cvConvert(frame2_mono, mat2);
+
+        calcOpticalFlowPyrLK(mat1, mat2, in, out, status, errors);
+//        calcOpticalFlowPyrLK(frame1_mono, frame2_mono, in, out, status, errors);
 
         // if the point has been found by PyrLK algorithm
         // set the new point's values

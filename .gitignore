@@ -4,3 +4,4 @@ test/*
 documentation/*
 *.swp
 moc_*
+stecrypt
